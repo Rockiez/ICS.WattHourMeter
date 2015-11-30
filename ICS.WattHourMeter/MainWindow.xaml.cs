@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using ICS.Common;
 using ICS.Models;
 using ICS.Acquisition;
+using ICS.Models.Com;
 
 namespace ICS.WattHourMeter
 {
@@ -33,7 +34,8 @@ namespace ICS.WattHourMeter
 
         private void No1_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var state = Global.ADAM4150Provider.CheckSerialPort(Global.ADAM4150Provider.ADAM4017Provider);
+        var equipment = new ADAM4150(new ComSettingModel());
+            var state = equipment.CheckSerialPort(equipment.ADAM4017Provider);
             if (state.Status == RunStatus.Success)
             {
                 if (Global.ADAM4150Provider.OnOff( no1state ? ADAM4150FuncID.OffSocket1 : ADAM4150FuncID.OnSocket1 ))
@@ -46,7 +48,6 @@ namespace ICS.WattHourMeter
                 {
                     MessageBox.Show("The Operation is erron");
                 }
-
             }
             else
             {
